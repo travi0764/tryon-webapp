@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = Client("Nymbo/Virtual-Try-On", hf_token=os.getenv("HF_TOKEN"))
+client = Client("Nymbo/Virtual-Try-On", hf_token=os.getenv("HF_TOKEN"), verbose=False)
 def process_tryon(person_image_path, garment_image_path, garment_desc):
     try:
         
