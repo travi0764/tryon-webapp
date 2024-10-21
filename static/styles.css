@@ -1,0 +1,126 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 40px;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #4CAF50;
+    margin-bottom: 30px;
+}
+
+form {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    display: inline-block;
+    width: 800px; /* Adjust to make the form wider to accommodate two boxes */
+}
+
+label {
+    font-size: 1.1em;
+    color: #555;
+}
+
+input[type="file"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Flexbox for two upload boxes side by side */
+.upload-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.upload-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 45%; /* Adjust the width as needed */
+    text-align: center;
+}
+
+.upload-box img {
+    max-width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Styles for result images in flexbox */
+.result-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.result-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 45%; /* Adjust the width as needed */
+    text-align: center;
+}
+
+.result-box img {
+    max-width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Spinner styling */
+#loading {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#loading img {
+    width: 50px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    form {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .upload-container, .result-container {
+        flex-direction: column;
+    }
+
+    .upload-box, .result-box {
+        width: 100%; /* Full width for mobile screens */
+    }
+}
