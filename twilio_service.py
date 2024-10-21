@@ -24,6 +24,7 @@ def save_image(media_url, sender, message):
     # Authenticate the media request
     r = requests.get(media_url, auth=(account_sid, auth_token), stream=True)
     content_type = r.headers['Content-Type']
+    
     username = sender.split(':')[1]  # Remove 'whatsapp:' prefix
     
     # Determine the file extension based on content type
@@ -45,12 +46,11 @@ def save_image(media_url, sender, message):
     
     return filename, None
 
-def respond(message, image_url = None):
+def respond(message):
     """Create a Twilio MessagingResponse."""
     response = MessagingResponse()
     response.message(message)
-    if image_url:
-        response.media(image_url)
+
     return str(response)
 
 
@@ -126,11 +126,12 @@ def call_try_on_api(user_flow, username):
     shutil.move(output_image, output_image_dest)
     shutil.move(masked_image, masked_image_dest)
 
-    public_url = upload_file_to_s3(output_image_dest)
+
+    public_url = upload_file_to_s3(output_image_dest, os.getenv("AWS_BUCKET_NAME"))
     print(f"Public url : {public_url}")
     try:
-        send_message(public_url)
+        send_message(public_url, username)
     except Exception as e:
         print(e)
-    return respond('Try-on process Ended!', public_url)
+    return respond('Try-on process Ended!')
 

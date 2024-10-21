@@ -84,14 +84,14 @@ def try_on():
 def root():
     return render_template("index.html")
 
-# # Serve static and generated files
-# @app.route('/static/<path:filename>')
-# def serve_static(filename):
-#     return send_from_directory('static', filename)
+# Serve static and generated files
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('static', filename)
 
-# @app.route('/generated_output/<path:filename>')
-# def serve_generated_output(filename):
-#     return send_from_directory('generated_output', filename)
+@app.route('/generated_output/<path:filename>')
+def serve_generated_output(filename):
+    return send_from_directory('generated_output', filename)
 
 
 if __name__ == "__main__":
