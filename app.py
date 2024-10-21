@@ -14,6 +14,7 @@ CORS(app)
 
 
 os.makedirs("generated_output", exist_ok=True)
+os.makedirs('logs', exist_ok = True)
 
 # Set up logging
 logging.basicConfig(
