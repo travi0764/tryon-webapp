@@ -70,6 +70,11 @@ This project implements a **Virtual Try-On System** using **FastAPI**, **Hugging
 - `POST /twilio`: Webhook for receiving messages from Twilio WhatsApp.
 
 ## Usage
+### Join my Twilio Sandbox 
+
+1. Use whatsapp to send a message to `+14155238886`
+2. Use code `join provide-quite`
+   
 ### Virtual Try-On
 1. Upload a person image and a garment image.
 2. Provide a garment description.
