@@ -6,13 +6,15 @@ import shutil
 import uuid
 from tryon_service import process_tryon
 from file_utils import cleanup_old_files
+from upload import upload_file_to_s3
+from dotenv import load_dotenv
 from twilio_service import handle_user_message
 import logging
 
 app = Flask(__name__)
 CORS(app)
 
-
+load_dotenv()
 os.makedirs("generated_output", exist_ok=True)
 os.makedirs('logs', exist_ok = True)
 
@@ -28,8 +30,8 @@ def whatsapp_reply():
     message = request.form.get('Body')
     media_url = request.form.get('MediaUrl0')
     
-    print(f'{sender} sent {message}')
-    print("Printing media url:", media_url)
+    logging(f'{sender} sent {message}')
+    logging("Printing media url:", media_url)
     
     # Delegate the message handling to the service function
     response = handle_user_message(sender, message, media_url)
@@ -50,10 +52,20 @@ def try_on():
         person_image.save(person_image_path)
         garment_image.save(garment_image_path)
 
+        AWS_PERSON_UPLOAD_BUCKET = "upload-person-image-folder"
+        AWS_GARMENT_UPLOAD_BUCKET = "upload-germent-image-folder"
+
+        _ = upload_file_to_s3(person_image_path, AWS_PERSON_UPLOAD_BUCKET)
+        _ = upload_file_to_s3(garment_image_path, AWS_GARMENT_UPLOAD_BUCKET)
+
         # Process try-on using Hugging Face API
         output_image, masked_image = process_tryon(person_image_path, garment_image_path, garment_desc)
         
         # Save the generated images in 'generated_output'
+
+        AWS_OUTPUT_IMAGE_BUCKET = "output-person-image-folder"
+        AWS_OUTPUT_MASKED_IMAGE_BUCKET = "output-garment-image-folder"
+
         output_image_dest = f"generated_output/output_{uuid.uuid4().hex}.png"
         masked_image_dest = f"generated_output/masked_{uuid.uuid4().hex}.png"
         shutil.move(output_image, output_image_dest)
@@ -65,6 +77,10 @@ def try_on():
         
         with open(masked_image_dest, "rb") as image_file:
             masked_image_base64 = base64.b64encode(image_file.read()).decode('utf-8')
+
+        _ = upload_file_to_s3(output_image_dest, AWS_OUTPUT_IMAGE_BUCKET)
+        _ = upload_file_to_s3(masked_image_dest, AWS_OUTPUT_MASKED_IMAGE_BUCKET)
+
 
         # Return paths for UI and base64 for external service use
         return jsonify({
